@@ -60,14 +60,12 @@ def scrape_flipkart(product):
     df = pd.DataFrame({"Product Name": Product_Name, "Prices": Prices, "Description": Description, "Reviews": Reviews})
     return df
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET'])
 def scrape_product():
-    # Get the product name from the request
-    data = request.get_json()
-    if not data or 'product' not in data:
+    # Get the product name from the query parameter
+    product = request.args.get('product')
+    if not product:
         return jsonify({"error": "Product name is required"}), 400
-
-    product = data['product']
 
     # Scrape the data
     df = scrape_flipkart(product)
