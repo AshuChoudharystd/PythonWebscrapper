@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 public class ScraperController {
@@ -27,9 +28,11 @@ public class ScraperController {
         byte[] csvData = restTemplate.getForObject(FLASK_API_URL + "?product=" + product, byte[].class);
 
         try {
-            Path tempFile = Files.createTempFile("scraped_data", ".csv");
-            Files.write(tempFile, csvData);
-            model.addAttribute("csvFile", tempFile.toString());
+            // Use the specified path for the Downloads folder
+            Path downloadPath = Paths.get("C:\\Users\\LENOVO\\Downloads", "scraped_data_" + product + ".csv");
+            Files.write(downloadPath, csvData);
+
+            model.addAttribute("csvFile", downloadPath.toString());
             model.addAttribute("product", product);
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,4 +41,5 @@ public class ScraperController {
 
         return "result";
     }
+
 }
