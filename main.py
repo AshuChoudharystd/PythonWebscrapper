@@ -60,7 +60,7 @@ def scrape_flipkart(product):
     df = pd.DataFrame({"Product Name": Product_Name, "Prices": Prices, "Description": Description, "Reviews": Reviews})
     return df
 
-@app.route('/scrape', methods=['POST'])
+@app.route('/', methods=['POST'])
 def scrape_product():
     # Get the product name from the request
     data = request.get_json()
